@@ -1,0 +1,86 @@
+\newcommand{\drawtop}[9]{
+	\coordinate (v0) at (0, 1);
+	\coordinate (v1) at (-0.288675, 0.833333);
+	\coordinate (v2) at (0, 0.666667);
+	\coordinate (v3) at (0.288675, 0.833333);
+	\coordinate (v4) at (-0.577350, 0.666667);
+	\coordinate (v5) at (-0.288675, 0.5);
+	\coordinate (v6) at (0, 0.333333);
+	\coordinate (v7) at (0.288675, 0.5);
+	\coordinate (v8) at (0.577350, 0.666667);
+	\coordinate (v9) at (-0.866025, 0.5);
+	\coordinate (v10) at (-0.577350, 0.333333);
+	\coordinate (v11) at (-0.288675, 0.166667);
+	\coordinate (v12) at (0.288675, 0.166667);
+	\coordinate (v13) at (0.577350, 0.333333);
+	\coordinate (v14) at (0.866025, 0.5);
+	\coordinate (v15) at (0, 0);
+
+	\fill[color = #1] (v0) -- (v1) -- (v2) -- (v3);
+	\fill[color = #2] (v1) -- (v4) -- (v5) -- (v2);
+	\fill[color = #3] (v4) -- (v9) -- (v10) -- (v5);
+	\fill[color = #4] (v10) -- (v11) -- (v6) -- (v5);
+	\fill[color = #5] (v5) -- (v6) -- (v7) -- (v2);
+	\fill[color = #6] (v2) -- (v7) -- (v8) -- (v3);
+	\fill[color = #7] (v7) -- (v13) -- (v14) -- (v8);
+	\fill[color = #8] (v6) -- (v12) -- (v13) -- (v7);
+	\fill[color = #9] (v11) -- (v15) -- (v12) -- (v6);
+}
+
+\newcommand{\drawleft}[9]{
+	\coordinate (v0) at (-0.866025, 0.5);
+	\coordinate (v1) at (-0.577350, 0.333333);
+	\coordinate (v2) at (-0.288675, 0.166667);
+	\coordinate (v3) at (0, 0);
+	\coordinate (v4) at (-0.866025, 0.166667);
+	\coordinate (v5) at (-0.577350, 0.0);
+	\coordinate (v6) at (-0.288675, -0.166667);
+	\coordinate (v7) at (0, -0.333333);
+	\coordinate (v8) at (-0.866025, -0.166667);
+	\coordinate (v9) at (-0.577350, -0.333333);
+	\coordinate (v10) at (-0.288675, -0.5);
+	\coordinate (v11) at (0, -0.666667);
+	\coordinate (v12) at (-0.866025, -0.5);
+	\coordinate (v13) at (-0.577350, -0.666667);
+	\coordinate (v14) at (-0.288675, -0.833333);
+	\coordinate (v15) at (0, -1);
+
+	\fill[color = #1] (v0) -- (v1) -- (v5) -- (v4);
+	\fill[color = #2] (v1) -- (v2) -- (v6) -- (v5);
+	\fill[color = #3] (v2) -- (v3) -- (v7) -- (v6);
+	\fill[color = #4] (v4) -- (v5) -- (v9) -- (v8);
+	\fill[color = #5] (v5) -- (v6) -- (v10) -- (v9);
+	\fill[color = #6] (v6) -- (v7) -- (v11) -- (v10);
+	\fill[color = #7] (v8) -- (v9) -- (v13) -- (v12);
+	\fill[color = #8] (v9) -- (v10) -- (v14) -- (v13);
+	\fill[color = #9] (v10) -- (v11) -- (v15) -- (v14);
+}
+
+\newcommand{\drawright}[9]{
+	\coordinate (v0) at (0, 0);
+	\coordinate (v1) at (0.288675, 0.166667);
+	\coordinate (v2) at (0.577350, 0.333333);
+	\coordinate (v3) at (0.866025, 0.5);
+	\coordinate (v4) at (0, -0.333333);
+	\coordinate (v5) at (0.288675, -0.166667);
+	\coordinate (v6) at (0.577359, 0.0);
+	\coordinate (v7) at (0.866025, 0.166667);
+	\coordinate (v8) at (0, -0.666667);
+	\coordinate (v9) at (0.288675, -0.5);
+	\coordinate (v10) at (0.577359, -0.333333);
+	\coordinate (v11) at (0.866025, -0.166667);
+	\coordinate (v12) at (0, -1);
+	\coordinate (v13) at (0.288675, -0.833333);
+	\coordinate (v14) at (0.577359, -0.666667);
+	\coordinate (v15) at (0.866025, -0.5);
+
+	\fill[color = #1] (v0) -- (v1) -- (v5) -- (v4);
+	\fill[color = #2] (v1) -- (v2) -- (v6) -- (v5);
+	\fill[color = #3] (v2) -- (v3) -- (v7) -- (v6);
+	\fill[color = #4] (v4) -- (v5) -- (v9) -- (v8);
+	\fill[color = #5] (v5) -- (v6) -- (v10) -- (v9);
+	\fill[color = #6] (v6) -- (v7) -- (v11) -- (v10);
+	\fill[color = #7] (v8) -- (v9) -- (v13) -- (v12);
+	\fill[color = #8] (v9) -- (v10) -- (v14) -- (v13);
+	\fill[color = #9] (v10) -- (v11) -- (v15) -- (v14);
+}

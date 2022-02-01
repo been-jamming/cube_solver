@@ -1,2 +1,4 @@
 default:
-	gcc cube.c thistlethwaite.c -O3 -o thistlethwaite
+	gcc cube_book_gen.c cube.c -o cube_book_gen
+	./cube_book_gen > test.tex
+	tectonic test.tex

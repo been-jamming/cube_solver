@@ -24,9 +24,13 @@ enum rubiks_move{
 typedef enum rubiks_move rubiks_move;
 
 struct rubiks_cube{
+	//Given an edge id, outputs its position
 	int edge_permutation[12];
+	//Given a corner id, outputs its position
 	int corner_permutation[8];
+	//Given an edge id, outputs its orientation
 	int edge_orientation[12];
+	//Given a corner id, outputs its orientation
 	int corner_orientation[8];
 };
 
