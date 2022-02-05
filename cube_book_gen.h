@@ -9,3 +9,6 @@
 extern const char *color_strings[7];
 extern int edge_colors[12][2];
 extern int edge_sticker_positions_top[12];
+extern int edge_sticker_positions_left[12];
+extern int edge_sticker_positions_front[12];
+extern int corner_colors[8][3];
