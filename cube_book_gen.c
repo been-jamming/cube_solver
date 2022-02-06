@@ -47,6 +47,18 @@ int edge_sticker_positions_front[12] = {
 	1, -1, -1, -1, 3, -1, -1, 5, 7, -1, -1, -1
 };
 
+int edge_sticker_positions_bottom[12] = {
+	-1, -1, -1, -1, -1, -1, -1, -1, 5, 1, 3, 7
+};
+
+int edge_sticker_positions_back[12] = {
+	-1, -1, 7, -1, -1, 3, 5, -1, -1, -1, 1, -1
+};
+
+int edge_sticker_positions_right[12] = {
+	-1, -1, -1, 7, -1, -1, 3, 5, -1, -1, -1, 1
+};
+
 //Corner colors in clockwise order
 int corner_colors[8][3] = {
 	{BLUE, RED, WHITE}, {GREEN, WHITE, RED},
@@ -77,6 +89,30 @@ int corner_sticker_positions_front[8] = {
 
 int corner_orientation_offsets_front[8] = {
 	3, -1, -1, 3, 3, -1, -1, 3
+};
+
+int corner_sticker_positions_bottom[8] = {
+	-1, -1, -1, -1, 0, 2, 8, 6
+};
+
+int corner_orientation_offsets_bottom[8] = {
+	-1, -1, -1, -1, 4, 2, 4, 2
+};
+
+int corner_sticker_positions_back[8] = {
+	-1, 6, 8, -1, -1, 0, 2, -1
+};
+
+int corner_orientation_offsets_back[8] = {
+	-1, 3, 3, -1, -1, 3, 3, -1
+};
+
+int corner_sticker_positions_right[8] = {
+	-1, -1, 6, 8, -1, -1, 0, 2
+};
+
+int corner_orientation_offsets_right[8] = {
+	-1, -1, 4, 2, -1, -1, 2, 4
 };
 
 void gen_top_face(rubiks_cube *cube){
@@ -223,17 +259,13 @@ void gen_front_face(rubiks_cube *cube){
 				sticker_colors[edge_sticker_positions_front[cube->edge_permutation[i]]] = color1;
 			}
 		} else {
-			fprintf(stderr, "WTF %d %d\n", color0, color1);
 			if(color1>>1 == BLUE>>1){
-				fprintf(stderr, "HIIII %d\n", i);
 				sticker_colors[edge_sticker_positions_front[cube->edge_permutation[i]]] = color0;
 			} else if(color0>>1 == BLUE>>1){
 				sticker_colors[edge_sticker_positions_front[cube->edge_permutation[i]]] = color1;
 			} else if(color1>>1 == RED>>1){
-				fprintf(stderr, "Hi1\n");
 				sticker_colors[edge_sticker_positions_front[cube->edge_permutation[i]]] = color1;
 			} else if(color0>>1 == RED>>1){
-				fprintf(stderr, "Hi2\n");
 				sticker_colors[edge_sticker_positions_front[cube->edge_permutation[i]]] = color0;
 			}
 		}
@@ -244,6 +276,178 @@ void gen_front_face(rubiks_cube *cube){
 			continue;
 		}
 		sticker_colors[corner_sticker_positions_front[cube->corner_permutation[i]]] = corner_colors[i][(corner_orientation_offsets_front[cube->corner_permutation[i]] - cube->corner_orientation[i])%3];
+	}
+
+	printf("\\drawright");
+	for(i = 0; i < 9; i++){
+		printf("{%s}", color_strings[sticker_colors[i]]);
+	}
+	printf("\n");
+}
+
+void gen_bottom_face(rubiks_cube *cube){
+	int i;
+	int color0;
+	int color1;
+	int orig_color0;
+	int orig_color1;
+	int sticker_colors[9];
+
+	for(i = 0; i < 9; i++){
+		sticker_colors[i] = BLACK;
+	}
+
+	sticker_colors[4] = YELLOW;
+	for(i = 0; i < 12; i++){
+		if(edge_sticker_positions_bottom[cube->edge_permutation[i]] == -1){
+			continue;
+		}
+		orig_color0 = edge_colors[cube->edge_permutation[i]][0];
+		orig_color1 = edge_colors[cube->edge_permutation[i]][1];
+		color0 = edge_colors[i][0];
+		color1 = edge_colors[i][1];
+
+		//If the edge is oriented
+		if(cube->edge_orientation[i] == 0){
+			if(color1>>1 == orig_color1>>1){
+				sticker_colors[edge_sticker_positions_bottom[cube->edge_permutation[i]]] = color0;
+			} else {
+				sticker_colors[edge_sticker_positions_bottom[cube->edge_permutation[i]]] = color1;
+			}
+		} else {
+			if(color1>>1 == orig_color1>>1){
+				sticker_colors[edge_sticker_positions_bottom[cube->edge_permutation[i]]] = color1;
+			} else {
+				sticker_colors[edge_sticker_positions_bottom[cube->edge_permutation[i]]] = color0;
+			}
+		}
+	}
+
+	for(i = 0; i < 8; i++){
+		if(corner_sticker_positions_bottom[cube->corner_permutation[i]] == -1){
+			continue;
+		}
+		sticker_colors[corner_sticker_positions_bottom[cube->corner_permutation[i]]] = corner_colors[i][(corner_orientation_offsets_bottom[cube->corner_permutation[i]] - cube->corner_orientation[i])%3];
+	}
+
+	printf("\\drawtop");
+	for(i = 0; i < 9; i++){
+		printf("{%s}", color_strings[sticker_colors[i]]);
+	}
+	printf("\n");
+}
+
+void gen_back_face(rubiks_cube *cube){
+	int i;
+	int color0;
+	int color1;
+	int orig_color0;
+	int orig_color1;
+	int sticker_colors[9];
+
+	for(i = 0; i < 9; i++){
+		sticker_colors[i] = BLACK;
+	}
+
+	sticker_colors[4] = GREEN;
+	for(i = 0; i < 12; i++){
+		if(edge_sticker_positions_back[cube->edge_permutation[i]] == -1){
+			continue;
+		}
+		orig_color0 = edge_colors[cube->edge_permutation[i]][0];
+		orig_color1 = edge_colors[cube->edge_permutation[i]][1];
+		color0 = edge_colors[i][0];
+		color1 = edge_colors[i][1];
+
+		//If the edge is oriented
+		if(cube->edge_orientation[i] == 0){
+			if(color1>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color1;
+			} else if(color0>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color0;
+			} else if(color1>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color0;
+			} else if(color0>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color1;
+			}
+		} else {
+			if(color1>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color0;
+			} else if(color0>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color1;
+			} else if(color1>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color1;
+			} else if(color0>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_back[cube->edge_permutation[i]]] = color0;
+			}
+		}
+	}
+
+	for(i = 0; i < 8; i++){
+		if(corner_sticker_positions_back[cube->corner_permutation[i]] == -1){
+			continue;
+		}
+		sticker_colors[corner_sticker_positions_back[cube->corner_permutation[i]]] = corner_colors[i][(corner_orientation_offsets_back[cube->corner_permutation[i]] - cube->corner_orientation[i])%3];
+	}
+
+	printf("\\drawleft");
+	for(i = 0; i < 9; i++){
+		printf("{%s}", color_strings[sticker_colors[i]]);
+	}
+	printf("\n");
+}
+
+void gen_right_face(rubiks_cube *cube){
+	int i;
+	int color0;
+	int color1;
+	int orig_color0;
+	int orig_color1;
+	int sticker_colors[9];
+
+	for(i = 0; i < 9; i++){
+		sticker_colors[i] = BLACK;
+	}
+
+	sticker_colors[4] = ORANGE;
+	for(i = 0; i < 12; i++){
+		if(edge_sticker_positions_right[cube->edge_permutation[i]] == -1){
+			continue;
+		}
+		orig_color0 = edge_colors[cube->edge_permutation[i]][0];
+		orig_color1 = edge_colors[cube->edge_permutation[i]][1];
+		color0 = edge_colors[i][0];
+		color1 = edge_colors[i][1];
+
+		//If the edge is oriented
+		if(cube->edge_orientation[i] == 0){
+			if(color1>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color1;
+			} else if(color0>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color0;
+			} else if(color1>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color0;
+			} else if(color0>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color1;
+			}
+		} else {
+			if(color1>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color0;
+			} else if(color0>>1 == ORANGE>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color1;
+			} else if(color1>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color1;
+			} else if(color0>>1 == GREEN>>1){
+				sticker_colors[edge_sticker_positions_right[cube->edge_permutation[i]]] = color0;
+			}
+		}
+	}
+
+	for(i = 0; i < 8; i++){
+		if(corner_sticker_positions_right[cube->corner_permutation[i]] == -1){
+			continue;
+		}
+		sticker_colors[corner_sticker_positions_right[cube->corner_permutation[i]]] = corner_colors[i][(corner_orientation_offsets_right[cube->corner_permutation[i]] - cube->corner_orientation[i])%3];
 	}
 
 	printf("\\drawright");
@@ -265,16 +469,16 @@ int main(int argc, char **argv){
 	rubiks_cube *cube;
 
 	cube = create_cube();
+	make_move(cube, RIGHT);
+	make_move(cube, BACK);
+	make_move(cube, DOWN);
 	printf("%s", document_start);
 	display_cube(cube);
-	make_move(cube, FRONT);
-	display_cube(cube);
-	make_move(cube, LEFT);
-	display_cube(cube);
-	undo_move(cube, FRONT);
-	display_cube(cube);
-	undo_move(cube, LEFT);
-	display_cube(cube);
+	printf("%s", image_start);
+	gen_bottom_face(cube);
+	gen_back_face(cube);
+	gen_right_face(cube);
+	printf("%s", image_end);
 	free(cube);
 	printf("%s", document_end);
 
