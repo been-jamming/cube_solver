@@ -1,0 +1,262 @@
+\documentclass{article}
+\usepackage{tikz}
+\title{How to Solve a Rubik's Cube Like a Computer}
+\date{}
+\author{}
+\input{template.tex}
+
+\newcommand{\step}{\vspace{0.25cm}\hrule\vspace{0.25cm}}
+
+%%Template
+\iffalse
+
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+\fi
+%%
+
+\begin{document}
+
+%First step
+Set \emph{solution number} to 0.
+
+\step
+
+%Orientation of the first corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{white}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{yellow}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+1. Add 495 to \emph{solution number}.
+
+\step
+
+%Orientation of the first corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{white}
+\drawleft{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{yellow}
+\drawleft{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+2. Add 990 to \emph{solution number}.
+
+\step
+
+%Orientation of the second corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{white}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{yellow}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+3. Add 1485 to \emph{solution number}.
+
+\step
+
+%Orientation of the second corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{white}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{yellow}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+4. Add 2970 to \emph{solution number}.
+
+\step
+
+%Orientation of the third corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{white}{gray}{red}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{yellow}{gray}{red}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+5. Add 4455 to \emph{solution number}.
+
+\step
+
+%Orientation of the third corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{white}
+\drawleft{gray}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{yellow}
+\drawleft{gray}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+6. Add 8910 to \emph{solution number}.
+
+\step
+
+%Orientation of the fourth corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{white}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{yellow}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+7. Add 13365 to \emph{solution number}.
+
+\step
+
+%Orientation of the fourth corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{white}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{yellow}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+8. Add 26730 to \emph{solution number}.
+
+\step
+
+%Orientation of the fifth corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{white}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{yellow}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+9. Add 40095 to \emph{solution number}.
+
+\step
+
+%Orientation of the fifth corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{white}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{white}{gray}{gray}{gray}{gray}
+\drawright{yellow}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+10. Add 80190 to \emph{solution number}.
+
+\step
+
+%Orientation of the sixth corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{white}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{yellow}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+11. Add 120285 to \emph{solution number}.
+
+\step
+
+%Orientation of the sixth corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{white}
+\drawleft{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{yellow}
+\drawleft{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+12. Add 240570 to \emph{solution number}.
+
+\step
+
+%Orientation of the seventh corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{white}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{yellow}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{gray}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+13. Add 360855 to \emph{solution number}.
+
+\step
+
+%Orientation of the seventh corner
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{white}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{green}{gray}{gray}{gray}{gray}
+\drawleft{gray}{gray}{gray}{gray}{yellow}{gray}{gray}{gray}{gray}
+\drawright{yellow}{gray}{gray}{gray}{red}{gray}{gray}{gray}{gray}
+\end{tikzpicture}
+
+14. Add 721710 to \emph{solution number}.
+
+\step
+%Now I have to implement the combination of the middle edges
+%I'm not quite sure how I'm going to do this
+
+%12 choose 4 - edge position 0
+\begin{tikzpicture}[scale=1.0]
+\drawtop{gray}{gray}{gray}{gray}{blue}{gray}{gray}{orange}{gray}
+\drawleft{gray}{gray}{gray}{gray}{orange}{gray}{gray}{gray}{gray}
+\drawright{white}{gray}{gray}{gray}{white}{gray}{gray}{blue}{gray}
+\end{tikzpicture}
+
+\end{document}

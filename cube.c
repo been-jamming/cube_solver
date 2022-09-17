@@ -42,7 +42,7 @@ static int inverse_corner_permutations[6][12] = {
 	{0, 1, 2, 3, 7, 4, 5, 6}
 };
 
-//Only Front/Back change the edge orientations
+//Only Up/Down change the edge orientations
 static int edge_orientations[2][12] = {
 	{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1}

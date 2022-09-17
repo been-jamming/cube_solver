@@ -777,8 +777,6 @@ int main(int argc, char **argv){
 	solve_cube_G3(cube);
 	printf("\n");
 
-	write_G3_table();
-
 	free(edge_orient_table);
 	free(G1_table);
 	free(G2_table);
