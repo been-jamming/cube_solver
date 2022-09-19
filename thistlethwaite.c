@@ -164,6 +164,65 @@ void thistlethwaite_gen_table0(rubiks_cube *cube, int cost, int count, rubiks_mo
 	}
 }
 
+void thistlethwaite_gen_table1_2(rubiks_cube *cube, int cost, rubiks_move last_move, unsigned char *table){
+	unsigned int index;
+	int i;
+	char move_names[6] = {'F', 'B', 'L', 'R', 'U', 'D'};
+
+	if(cost > 20){
+		return;
+	}
+
+	index = thistlethwaite_index1(cube);
+	if(table[index] <= cost){
+		return;
+	}
+	table[index] = cost;
+
+	for(i = 0; i < 6; i++){
+		if(last_move == i){
+			continue;
+		}
+		if(last_move == FRONT && i == BACK){
+			continue;
+		}
+		if(last_move == LEFT && i == RIGHT){
+			continue;
+		}
+		if(last_move == UP && i == DOWN){
+			continue;
+		}
+		make_move(cube, i);
+		make_move(cube, i);
+		thistlethwaite_gen_table1_2(cube, cost + 1, i, table);
+		undo_move(cube, i);
+		thistlethwaite_gen_table1_2(cube, cost + 1, i, table);
+		undo_move(cube, i);
+		undo_move(cube, i);
+		thistlethwaite_gen_table1_2(cube, cost + 1, i, table);
+		make_move(cube, i);
+		//if(last_move == i){
+		//	if(count < 3 && i != UP && i != DOWN){
+		//		make_move(cube, i);
+		//		thistlethwaite_gen_table1(cube, cost, count + 1, i, table);
+		//		undo_move(cube, i);
+		//	} else {
+		//		continue;
+		//	}
+		//} else {
+		//	make_move(cube, i);
+		//	if(i == UP || i == DOWN){
+		//		make_move(cube, i);
+		//	}
+		//	thistlethwaite_gen_table1(cube, cost + 1, 1, i, table);
+		//	undo_move(cube, i);
+		//	if(i == UP || i == DOWN){
+		//		undo_move(cube, i);
+		//	}
+		//}
+	}
+}
+
 void thistlethwaite_gen_table1(rubiks_cube *cube, int cost, int count, rubiks_move last_move, unsigned char *table){
 	unsigned int index;
 	int i;
@@ -510,11 +569,23 @@ void solve_cube_G1(rubiks_cube *cube){
 	int i;
 	char move_names[6] = {'F', 'B', 'L', 'R', 'U', 'D'};
 
+	//printf("index: %u\n", thistlethwaite_index1(cube));
 	start_num_moves = G1_table[thistlethwaite_index1(cube)];
 	if(!start_num_moves){
 		return;
 	}
 
+	for(i = 0; i < 6; i++){
+		make_move(cube, i);
+		make_move(cube, i);
+		if(G1_table[thistlethwaite_index1(cube)] < start_num_moves){
+			printf("%c2", move_names[i]);
+			solve_cube_G1(cube);
+			return;
+		}
+		undo_move(cube, i);
+		undo_move(cube, i);
+	}
 	for(i = 0; i < 6; i++){
 		if(i == UP || i == DOWN){
 			continue;
@@ -525,17 +596,6 @@ void solve_cube_G1(rubiks_cube *cube){
 			solve_cube_G1(cube);
 			return;
 		}
-		undo_move(cube, i);
-	}
-	for(i = 0; i < 6; i++){
-		make_move(cube, i);
-		make_move(cube, i);
-		if(G1_table[thistlethwaite_index1(cube)] < start_num_moves){
-			printf("%c2", move_names[i]);
-			solve_cube_G1(cube);
-			return;
-		}
-		undo_move(cube, i);
 		undo_move(cube, i);
 	}
 	for(i = 0; i < 6; i++){
@@ -675,6 +735,12 @@ void gen_G1_table(rubiks_cube *cube){
 	thistlethwaite_gen_table1(cube, 0, 0, -1, G1_table);
 }
 
+void gen_G1_table_2(rubiks_cube *cube){
+	G1_table = malloc(sizeof(unsigned char)*TABLE1_SIZE);
+	memset(G1_table, 255, sizeof(unsigned char)*TABLE1_SIZE);
+	thistlethwaite_gen_table1_2(cube, 0, -1, G1_table);
+}
+
 void gen_G2_table(rubiks_cube *cube){
 	G2_table = malloc(sizeof(unsigned char)*TABLE2_SIZE);
 	memset(G2_table, 255, sizeof(unsigned char)*TABLE2_SIZE);
@@ -760,6 +826,9 @@ int main(int argc, char **argv){
 	cube = create_cube();
 
 	load_edge_orient_table();
+	//printf("generating table...\n");
+	//gen_G1_table(cube);
+	//printf("done\n");
 	load_G1_table();
 	load_G2_table();
 	load_G3_table();
@@ -767,12 +836,16 @@ int main(int argc, char **argv){
 	printf("enter scramble: ");
 	enter_scramble(cube);
 
+	printf("index: %d", thistlethwaite_index0(cube));
 	printf("\nedge orient solution: ");
 	solve_cube_orientation(cube);
+	printf("\nindex: %d", thistlethwaite_index1(cube));
 	printf("\nG1 solution: ");
 	solve_cube_G1(cube);
+	printf("\nindex: %d", thistlethwaite_index2(cube));
 	printf("\nG2 solution: ");
 	solve_cube_G2(cube);
+	printf("\nindex: %d", thistlethwaite_index3(cube));
 	printf("\nG3 solution: ");
 	solve_cube_G3(cube);
 	printf("\n");

@@ -15,9 +15,19 @@ const char footer[] =
 "\\end{multicols}}\\end{document}\n";
 
 const unsigned int TABLE1_SIZE = 1082565;//3^7 times 12 choose 4
+char table_moves[1082565][41];
 unsigned char *G1_table;
 rubiks_cube *cube;
 rubiks_cube solved;
+
+int count_bits16(uint16_t i){
+	i = (i&0x5555) + ((i&0xAAAA)>>1);
+	i = (i&0x3333) + ((i&0xCCCC)>>2);
+	i = (i&0x0F0F) + ((i&0xF0F0)>>4);
+	i = (i&0x00FF) + ((i&0xFF00)>>8);
+
+	return i;
+}
 
 void load_G1_table(){
 	FILE *fp;
@@ -107,6 +117,60 @@ unsigned int thistlethwaite_index1(rubiks_cube *cube){
 	return corner_orientation_index*495 + edge_choice_index;//495 is 12 choose 4
 }
 
+void thistlethwaite_gen_table1(rubiks_cube *cube, int cost, int count, char moves[41], int char_pos, rubiks_move last_move, unsigned char *table){
+	unsigned int index;
+	int i;
+	char move_names[6] = {'F', 'B', 'L', 'R', 'U', 'D'};
+
+	if(cost > 20){
+		return;
+	}
+
+	index = thistlethwaite_index1(cube);
+	if(table[index] <= cost){
+		return;
+	}
+	table[index] = cost;
+	memcpy(table_moves[index], moves, sizeof(char)*41);
+
+	for(i = 0; i < 6; i++){
+		if(last_move == FRONT && i == BACK){
+			continue;
+		}
+		if(last_move == LEFT && i == RIGHT){
+			continue;
+		}
+		if(last_move == UP && i == DOWN){
+			continue;
+		}
+		if(last_move == i){
+			if(count < 3 && i != UP && i != DOWN){
+				make_move(cube, i);
+				moves[char_pos] = move_names[i];
+				thistlethwaite_gen_table1(cube, cost, count + 1, moves, char_pos + 1, i, table);
+				moves[char_pos] = '\0';
+				undo_move(cube, i);
+			} else {
+				continue;
+			}
+		} else {
+			make_move(cube, i);
+			moves[char_pos] = move_names[i];
+			if(i == UP || i == DOWN){
+				make_move(cube, i);
+				moves[char_pos + 1] = move_names[i];
+			}
+			thistlethwaite_gen_table1(cube, cost + 1, 1, moves, char_pos + 1 + (i == UP || i == DOWN), i, table);
+			moves[char_pos] = '\0';
+			undo_move(cube, i);
+			if(i == UP || i == DOWN){
+				undo_move(cube, i);
+				moves[char_pos + 1] = '\0';
+			}
+		}
+	}
+}
+
 void solve_cube_G1(rubiks_cube *cube){
 	int start_num_moves;
 	int num_moves;
@@ -173,6 +237,7 @@ void print_entry(unsigned int entry_id){
 	int edge_index = 0;
 	int edge_inverse[12];
 
+	printf("entry id: %u\n", entry_id);
 	memcpy(cube, &solved, sizeof(rubiks_cube));
 
 	for(i = 0; i < 12; i++){
@@ -205,22 +270,59 @@ void print_entry(unsigned int entry_id){
 
 	cube->corner_orientation[7] = (3 - corner_parity)%3;
 
+	printf("index: %u\n", thistlethwaite_index1(cube));
 	solve_cube_G1(cube);
+}
+
+void gen_G1_table(rubiks_cube *cube){
+	int i;
+	char moves[41] = {0};
+
+	G1_table = malloc(sizeof(unsigned char)*TABLE1_SIZE);
+	memset(G1_table, 255, sizeof(unsigned char)*TABLE1_SIZE);
+
+	for(i = 0; i < TABLE1_SIZE; i++){
+		memset(table_moves[i], 0, sizeof(char)*41);
+	}
+
+	thistlethwaite_gen_table1(cube, 0, 0, moves, 0, -1, G1_table);
+}
+
+void print_table_entry(unsigned int index){
+	int length;
+	int i;
+
+	length = strlen(table_moves[index]);
+
+	for(i = length - 1; i >= 0; i--){
+		if(i >= 2 && table_moves[index][i] == table_moves[index][i - 1] && table_moves[index][i] == table_moves[index][i - 2]){
+			printf("%c", table_moves[index][i]);
+			i -= 2;
+		} else if(i >= 1 && table_moves[index][i] == table_moves[index][i - 1]){
+			printf("%c2", table_moves[index][i]);
+			i--;
+		} else {
+			printf("%c'", table_moves[index][i]);
+		}
+	}
 }
 
 int main(int argc, char **argv){
 	int i;
 
 	cube = create_cube();
-	load_G1_table();
 	memcpy(&solved, cube, sizeof(rubiks_cube));
+	fprintf(stderr, "generating tables...\n");
+	gen_G1_table(cube);
+	fprintf(stderr, "done\n");
 
 	printf("%s", header);
 
 	for(i = 0; i < TABLE1_SIZE; i++){
 		printf("\\noindent %d: ", i);
 		//if(i){
-			print_entry(i);
+			print_table_entry(i);
+			//print_entry(i);
 		//} else {
 			//printf("[None]");
 		//}
