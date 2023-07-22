@@ -148,6 +148,9 @@ rubiks_cube *create_cube(){
 		output->corner_orientation[i] = 0;
 	}
 
+	output->edge_mask = (1U<<12) - 1;
+	output->corner_mask = (1U<<8) - 1;
+
 	return output;
 }
 

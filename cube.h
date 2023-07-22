@@ -32,6 +32,9 @@ struct rubiks_cube{
 	int edge_orientation[12];
 	//Given a corner id, outputs its orientation
 	int corner_orientation[8];
+	//Determines whether a piece is included in a cube render
+	unsigned int edge_mask;
+	unsigned int corner_mask;
 };
 
 typedef struct rubiks_cube rubiks_cube;
