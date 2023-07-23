@@ -4,29 +4,29 @@
 
 enum cube_color{
 	GRAY,
-	WHITE,
-	YELLOW,
 	BLUE,
 	GREEN,
-	RED,
-	ORANGE
+	WHITE,
+	YELLOW,
+	ORANGE,
+	RED
 };
 
-static const char *color_names[7] = {"gray", "white", "yellow", "blue", "green", "red", "orange"};
+static const char *color_names[7] = {"gray", "blue", "green", "white", "yellow", "orange", "red"};
 
 static const char *document_start = "\\documentclass{article}\n\\usepackage{tikz}\n\\input{template.tex}\n\\begin{document}\n";
-static const char *image_start = "\\begin{tikzpicture}[scale=0.5]\n";
+static const char *image_start = "\\begin{tikzpicture}[scale=2.0]\n";
 static const char *image_end = "\\end{tikzpicture}\n";
 static const char *document_end = "\\end{document}\n";
 
 enum cube_color edge_colors[12][2] = {
-	{WHITE, BLUE}, {WHITE, RED}, {WHITE, GREEN}, {WHITE, ORANGE},
-	{BLUE, RED}, {GREEN, RED}, {GREEN, ORANGE}, {BLUE, ORANGE},
-	{YELLOW, BLUE}, {YELLOW, RED}, {YELLOW, GREEN}, {YELLOW, ORANGE}
+	{BLUE, WHITE}, {BLUE, ORANGE}, {BLUE, YELLOW}, {BLUE, RED},
+	{WHITE, ORANGE}, {YELLOW, ORANGE}, {YELLOW, RED}, {WHITE, RED},
+	{GREEN, WHITE}, {GREEN, ORANGE}, {GREEN, YELLOW}, {GREEN, RED}
 };
 enum cube_color corner_colors[8][3] = {
-	{BLUE, WHITE, RED}, {RED, WHITE, GREEN}, {GREEN, WHITE, ORANGE}, {ORANGE, WHITE, BLUE},
-	{RED, YELLOW, BLUE}, {GREEN, YELLOW, RED}, {ORANGE, YELLOW, GREEN}, {BLUE, YELLOW, ORANGE}
+	{WHITE, BLUE, ORANGE}, {ORANGE, BLUE, YELLOW}, {YELLOW, BLUE, RED}, {RED, BLUE, WHITE},
+	{ORANGE, GREEN, WHITE}, {YELLOW, GREEN, ORANGE}, {RED, GREEN, YELLOW}, {WHITE, GREEN, RED}
 };
 
 struct cube_orientation{
@@ -107,18 +107,18 @@ static enum cube_color face_pair(enum cube_color color){
 
 static enum cube_color opposite_face(enum cube_color color){
 	switch(color){
-		case WHITE:
-			return YELLOW;
-		case YELLOW:
-			return WHITE;
 		case BLUE:
 			return GREEN;
 		case GREEN:
 			return BLUE;
-		case RED:
-			return ORANGE;
+		case WHITE:
+			return YELLOW;
+		case YELLOW:
+			return WHITE;
 		case ORANGE:
 			return RED;
+		case RED:
+			return ORANGE;
 		default:
 			return GRAY;
 	}
@@ -128,14 +128,14 @@ static enum cube_color edge_color(int edge_id, int edge_orientation, enum cube_c
 	enum cube_color color0;
 	enum cube_color color1;
 
-	if(face_pair(adjacent) == face_pair(WHITE)){
+	if(face_pair(adjacent) == face_pair(BLUE)){
 		return edge_color(edge_id, !edge_orientation, adjacent, face);
 	}
 
-	if(face_pair(face) == face_pair(WHITE)){
-		if(face_pair(edge_colors[edge_id][0]) == face_pair(WHITE)){
+	if(face_pair(face) == face_pair(BLUE)){
+		if(face_pair(edge_colors[edge_id][0]) == face_pair(BLUE)){
 			return (face_pair(adjacent) == face_pair(edge_colors[edge_id][1])) == edge_orientation ? edge_colors[edge_id][1] : edge_colors[edge_id][0];
-		} else if(face_pair(edge_colors[edge_id][1]) == face_pair(WHITE)){
+		} else if(face_pair(edge_colors[edge_id][1]) == face_pair(BLUE)){
 			return (face_pair(adjacent) == face_pair(edge_colors[edge_id][0])) == edge_orientation ? edge_colors[edge_id][0] : edge_colors[edge_id][1];
 		} else if(face_pair(edge_colors[edge_id][0]) == face_pair(adjacent)){
 			return edge_orientation ? edge_colors[edge_id][0] : edge_colors[edge_id][1];
@@ -161,18 +161,18 @@ static enum cube_color edge_color(int edge_id, int edge_orientation, enum cube_c
 static enum cube_color corner_color(int corner_id, int corner_orientation, enum cube_color face, enum cube_color adjacent0, enum cube_color adjacent1){
 	int orientation_index;
 
-	for(orientation_index = 0; face_pair(corner_colors[corner_id][orientation_index]) != face_pair(BLUE) && orientation_index < 3; orientation_index++);
+	for(orientation_index = 0; face_pair(corner_colors[corner_id][orientation_index]) != face_pair(WHITE) && orientation_index < 3; orientation_index++);
 
 	if(orientation_index == 3){
 		fprintf(stderr, "Could not compute corner color!\n");
 		return -1;
 	}
 
-	if(face_pair(adjacent0) == face_pair(BLUE)){
+	if(face_pair(adjacent0) == face_pair(WHITE)){
 		orientation_index += 1;
 	}
 
-	if(face_pair(adjacent1) == face_pair(BLUE)){
+	if(face_pair(adjacent1) == face_pair(WHITE)){
 		orientation_index += 2;
 	}
 
@@ -284,7 +284,7 @@ void draw_cube(rubiks_cube *cube, struct cube_orientation orientation){
 	printf("%s", image_end);
 }
 
-static int main2(int argc, char **argv){
+int main(int argc, char **argv){
 	rubiks_cube *cube;
 
 	cube = create_cube();
@@ -300,10 +300,10 @@ static int main2(int argc, char **argv){
 	make_move(cube, LEFT);
 	undo_move(cube, FRONT);
 	undo_move(cube, LEFT);
-	cube->edge_mask = 0;
-	cube->corner_mask = 1<<4;
+	//cube->edge_mask = 0;
+	//cube->corner_mask = 1<<4;
 	printf("%s", document_start);
-	draw_cube(cube, (struct cube_orientation) {.top_face = ORANGE, .left_face = BLUE, .right_face = YELLOW});
+	draw_cube(cube, (struct cube_orientation) {.top_face = RED, .left_face = WHITE, .right_face = GREEN});
 	printf("%s", document_end);
 
 	free(cube);

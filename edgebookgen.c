@@ -3,13 +3,13 @@
 #include <string.h>
 #include "cube.h"
 
-const char header[] = 
+const char *header = 
 "\\documentclass[9pt]{article}\n"
 "\\usepackage{multicol}\n"
 "\\usepackage[left=2cm, right=0.5cm, bottom=0.5cm, top=0.5cm]{geometry}"
 "\\begin{document}{\\begin{multicols}{6}\\small\n";
 
-const char footer[] =
+const char *footer =
 "\\end{multicols}}\\end{document}\n";
 
 const unsigned int TABLE0_SIZE = 1<<11;
